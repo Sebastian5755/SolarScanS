@@ -1,7 +1,13 @@
 """Pantallas web de SolarScan sobre la API: interfaz de inspección y tablero de operación."""
+import os
+
+# Un hilo por proceso y pocas arenas de memoria: el servicio cabe en la instancia gratuita (512 MB).
+os.environ.setdefault('OMP_NUM_THREADS', '1')
+os.environ.setdefault('MKL_NUM_THREADS', '1')
+os.environ.setdefault('MALLOC_ARENA_MAX', '2')
+
 import csv
 import io
-import os
 import time
 from pathlib import Path
 

@@ -1,0 +1,18 @@
+name: Mantener activo el servicio
+
+# La instancia gratuita de Render se suspende tras 15 minutos sin uso y la primera consulta tarda
+# cerca de 50 segundos. Durante el horario de operación se consulta /health cada 10 minutos.
+# 750 horas gratuitas al mes alcanzan para un servicio encendido todo el mes.
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '*/10 11-23 * * 1-5'
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Consultar /health
+        run: curl -fsS --retry 3 --retry-delay 20 --max-time 90 https://solarscans.onrender.com/health
