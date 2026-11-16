@@ -161,7 +161,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "https://solarscan-zuqf.onrender.com/predict",
+        "url": "https://solarscans.onrender.com/predict",
         "options": {
           "timeout": 90000
         },
@@ -193,7 +193,7 @@
     {
       "parameters": {
         "method": "GET",
-        "url": "https://solarscan-zuqf.onrender.com/serie/estado",
+        "url": "https://solarscans.onrender.com/serie/estado",
         "options": {
           "timeout": 60000
         },
@@ -240,7 +240,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "https://solarscan-zuqf.onrender.com/rag/buscar",
+        "url": "https://solarscans.onrender.com/rag/buscar",
         "options": {
           "timeout": 60000
         },
@@ -277,7 +277,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "https://solarscan-zuqf.onrender.com/recomendacion-integrada",
+        "url": "https://solarscans.onrender.com/recomendacion-integrada",
         "options": {
           "timeout": 120000
         },
@@ -542,7 +542,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// Junta la rama con aprobación y la rama sin aprobación en un solo registro final.\nlet fila;\ntry { fila = $('Registrar decisión del supervisor').first().json; } catch (e) { fila = null; }\nif (!fila) fila = $('Validar salida y preparar registro').first().json;\nconst estado = fila.estado_aprobacion;\nconst encabezado = estado === 'APROBADA' ? `ORDEN DE TRABAJO ${fila.ot_id} APROBADA`\n  : estado === 'RECHAZADA' ? 'Orden de trabajo RECHAZADA por el supervisor'\n  : estado === 'SIN RESPUESTA' ? 'Orden de trabajo SIN APROBAR (sin respuesta en 2 horas)'\n  : 'Seguimiento: no requiere orden de trabajo';\nconst asunto = `[SolarScan][${fila.prioridad}] ${fila.accion} · ${fila.inversor} · ${encabezado.split(' (')[0]}`;\nconst texto = `SOLARSCAN · RESULTADO FINAL\\n${encabezado}\\n\\n${fila.mensaje}\\n\\nTablero: https://solarscan-zuqf.onrender.com/tablero`;\nreturn [{ json: { ...fila, asunto, texto_final: texto } }];"
+        "jsCode": "// Junta la rama con aprobación y la rama sin aprobación en un solo registro final.\nlet fila;\ntry { fila = $('Registrar decisión del supervisor').first().json; } catch (e) { fila = null; }\nif (!fila) fila = $('Validar salida y preparar registro').first().json;\nconst estado = fila.estado_aprobacion;\nconst encabezado = estado === 'APROBADA' ? `ORDEN DE TRABAJO ${fila.ot_id} APROBADA`\n  : estado === 'RECHAZADA' ? 'Orden de trabajo RECHAZADA por el supervisor'\n  : estado === 'SIN RESPUESTA' ? 'Orden de trabajo SIN APROBAR (sin respuesta en 2 horas)'\n  : 'Seguimiento: no requiere orden de trabajo';\nconst asunto = `[SolarScan][${fila.prioridad}] ${fila.accion} · ${fila.inversor} · ${encabezado.split(' (')[0]}`;\nconst texto = `SOLARSCAN · RESULTADO FINAL\\n${encabezado}\\n\\n${fila.mensaje}\\n\\nTablero: https://solarscans.onrender.com/tablero`;\nreturn [{ json: { ...fila, asunto, texto_final: texto } }];"
       },
       "id": "291c631f-70e1-42e4-bf47-4d485acd208a",
       "name": "Consolidar resultado final",

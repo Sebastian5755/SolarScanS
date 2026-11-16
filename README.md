@@ -11,9 +11,9 @@ Telegram y queda registrado en Google Sheets, que alimenta el tablero.
 
 | Recurso | Enlace |
 |---|---|
-| Aplicación y API | https://solarscan-zuqf.onrender.com |
-| Tablero publicado | https://solarscan-zuqf.onrender.com/tablero |
-| Documentación de la API | https://solarscan-zuqf.onrender.com/docs |
+| Aplicación y API | https://solarscans.onrender.com |
+| Tablero publicado | https://solarscans.onrender.com/tablero |
+| Documentación de la API | https://solarscans.onrender.com/docs |
 
 ## Requisitos de la pauta y dónde se cumplen
 

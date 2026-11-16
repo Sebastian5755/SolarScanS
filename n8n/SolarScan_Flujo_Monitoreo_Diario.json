@@ -26,7 +26,7 @@
     {
       "parameters": {
         "method": "GET",
-        "url": "https://solarscan-zuqf.onrender.com/serie/alertas",
+        "url": "https://solarscans.onrender.com/serie/alertas",
         "options": {
           "timeout": 60000
         }
@@ -45,7 +45,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// Ordena los inversores con anomalía y arma el aviso con los que conviene inspeccionar primero.\nconst a = $json;\nconst lista = (a.anomalias || []).slice(0, 5);\nconst pct = v => (v * 100).toFixed(1).replace('.', ',') + ' %';\nconst lineas = lista.map((x, i) => `${i + 1}. ${x.inversor}: ${pct(x.indice_rendimiento)} de lo esperado, ${Math.round(x.perdida_kwh)} kWh no generados`);\nconst texto = [\n  `SOLARSCAN · MONITOREO DIARIO (${a.fecha})`,\n  `${a.inversores_con_anomalia} de ${a.inversores_evaluados} inversores bajo el umbral de ${pct(a.umbral)}.`,\n  `Energía no generada estimada: ${Math.round(a.perdida_total_kwh)} kWh.`, '',\n  'Inspeccionar primero (subir foto en el formulario de inspección):', ...lineas, '',\n  'Tablero: https://solarscan-zuqf.onrender.com/tablero'\n].join('\\n');\nreturn [{ json: { hay_anomalias: a.inversores_con_anomalia > 0,\n  asunto: `[SolarScan][MONITOREO] ${a.inversores_con_anomalia} inversores bajo el umbral · ${a.fecha}`, texto } }];"
+        "jsCode": "// Ordena los inversores con anomalía y arma el aviso con los que conviene inspeccionar primero.\nconst a = $json;\nconst lista = (a.anomalias || []).slice(0, 5);\nconst pct = v => (v * 100).toFixed(1).replace('.', ',') + ' %';\nconst lineas = lista.map((x, i) => `${i + 1}. ${x.inversor}: ${pct(x.indice_rendimiento)} de lo esperado, ${Math.round(x.perdida_kwh)} kWh no generados`);\nconst texto = [\n  `SOLARSCAN · MONITOREO DIARIO (${a.fecha})`,\n  `${a.inversores_con_anomalia} de ${a.inversores_evaluados} inversores bajo el umbral de ${pct(a.umbral)}.`,\n  `Energía no generada estimada: ${Math.round(a.perdida_total_kwh)} kWh.`, '',\n  'Inspeccionar primero (subir foto en el formulario de inspección):', ...lineas, '',\n  'Tablero: https://solarscans.onrender.com/tablero'\n].join('\\n');\nreturn [{ json: { hay_anomalias: a.inversores_con_anomalia > 0,\n  asunto: `[SolarScan][MONITOREO] ${a.inversores_con_anomalia} inversores bajo el umbral · ${a.fecha}`, texto } }];"
       },
       "id": "2fe66f6e-b161-450b-9eee-605a8359c9dc",
       "name": "Armar resumen diario",
