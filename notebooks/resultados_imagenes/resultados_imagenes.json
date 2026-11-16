@@ -1,0 +1,252 @@
+{
+  "division": {
+    "train": 552,
+    "val": 118,
+    "test": 117
+  },
+  "resultados": {
+    "EfficientNet-B0": {
+      "validacion": {
+        "accuracy": 0.7796610169491526,
+        "accuracy_balanceada": 0.793778783655169,
+        "macro_f1": 0.7924297924297924
+      },
+      "prueba": {
+        "accuracy": 0.6068376068376068,
+        "accuracy_balanceada": 0.5889007467225711,
+        "macro_f1": 0.5764965294378859
+      },
+      "recall_por_clase": {
+        "Bird-drop": 0.522,
+        "Clean": 0.536,
+        "Dusty": 0.704,
+        "Electrical-damage": 0.615,
+        "Physical-Damage": 0.333,
+        "Snow-Covered": 0.824
+      },
+      "danos_reales": 22,
+      "dano_sin_recomendar_tecnico": 6,
+      "dano_sin_derivacion_humana": 2,
+      "proporcion_revision_humana": 0.41025641025641024,
+      "parametros_millones": 4.02,
+      "tamano_mb_fp32": 16.1,
+      "latencia_cpu_ms": 14.2,
+      "mejor_epoca": 9,
+      "segundos_entrenamiento": null
+    },
+    "ConvNeXt-Tiny": {
+      "validacion": {
+        "accuracy": 0.9152542372881356,
+        "accuracy_balanceada": 0.9203969832699587,
+        "macro_f1": 0.9287171959585753
+      },
+      "prueba": {
+        "accuracy": 0.811965811965812,
+        "accuracy_balanceada": 0.7736362537087175,
+        "macro_f1": 0.7819123306842606
+      },
+      "recall_por_clase": {
+        "Bird-drop": 0.826,
+        "Clean": 0.821,
+        "Dusty": 0.815,
+        "Electrical-damage": 0.846,
+        "Physical-Damage": 0.333,
+        "Snow-Covered": 1.0
+      },
+      "danos_reales": 22,
+      "dano_sin_recomendar_tecnico": 6,
+      "dano_sin_derivacion_humana": 4,
+      "proporcion_revision_humana": 0.3333333333333333,
+      "parametros_millones": 27.82,
+      "tamano_mb_fp32": 111.3,
+      "latencia_cpu_ms": 59.3,
+      "mejor_epoca": 8,
+      "segundos_entrenamiento": 1260.4
+    },
+    "ViT-Small/16": {
+      "validacion": {
+        "accuracy": 0.8983050847457628,
+        "accuracy_balanceada": 0.8890918686315107,
+        "macro_f1": 0.8995184050409333
+      },
+      "prueba": {
+        "accuracy": 0.8461538461538461,
+        "accuracy_balanceada": 0.8340706529112326,
+        "macro_f1": 0.8467077175697865
+      },
+      "recall_por_clase": {
+        "Bird-drop": 0.783,
+        "Clean": 0.857,
+        "Dusty": 0.852,
+        "Electrical-damage": 0.846,
+        "Physical-Damage": 0.667,
+        "Snow-Covered": 1.0
+      },
+      "danos_reales": 22,
+      "dano_sin_recomendar_tecnico": 4,
+      "dano_sin_derivacion_humana": 3,
+      "proporcion_revision_humana": 0.2564102564102564,
+      "parametros_millones": 21.67,
+      "tamano_mb_fp32": 86.7,
+      "latencia_cpu_ms": 57.7,
+      "mejor_epoca": 5,
+      "segundos_entrenamiento": 841.6
+    }
+  },
+  "matrices_prueba": {
+    "EfficientNet-B0": [
+      [
+        12,
+        1,
+        5,
+        2,
+        1,
+        2
+      ],
+      [
+        2,
+        15,
+        6,
+        1,
+        1,
+        3
+      ],
+      [
+        1,
+        2,
+        19,
+        1,
+        1,
+        3
+      ],
+      [
+        1,
+        0,
+        0,
+        8,
+        3,
+        1
+      ],
+      [
+        2,
+        0,
+        1,
+        2,
+        3,
+        1
+      ],
+      [
+        1,
+        0,
+        1,
+        0,
+        1,
+        14
+      ]
+    ],
+    "ConvNeXt-Tiny": [
+      [
+        19,
+        0,
+        3,
+        0,
+        1,
+        0
+      ],
+      [
+        0,
+        23,
+        5,
+        0,
+        0,
+        0
+      ],
+      [
+        4,
+        1,
+        22,
+        0,
+        0,
+        0
+      ],
+      [
+        2,
+        0,
+        0,
+        11,
+        0,
+        0
+      ],
+      [
+        2,
+        2,
+        0,
+        2,
+        3,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        17
+      ]
+    ],
+    "ViT-Small/16": [
+      [
+        18,
+        1,
+        4,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        24,
+        4,
+        0,
+        0,
+        0
+      ],
+      [
+        2,
+        1,
+        23,
+        1,
+        0,
+        0
+      ],
+      [
+        0,
+        1,
+        0,
+        11,
+        1,
+        0
+      ],
+      [
+        2,
+        1,
+        0,
+        0,
+        6,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        17
+      ]
+    ]
+  },
+  "regla_decision": "Cambiar solo si otro modelo supera a EfficientNet-B0 por >= 0,05 de macro-F1 en validación",
+  "modelo_elegido": "ConvNeXt-Tiny",
+  "reproduce_hito1": true,
+  "dispositivo_entrenamiento": "cpu"
+}
