@@ -22,24 +22,30 @@ from datetime import date, datetime, timedelta
 from pathlib import Path
 
 import numpy as np
-import torch
-from torch import nn
+import onnxruntime as ort
+
+try:  # PyTorch solo se necesita para entrenar o exportar la LSTM, no para el servicio.
+    import torch
+    from torch import nn
+except ImportError:  # pragma: no cover
+    torch = None
 
 RAIZ = Path(__file__).resolve().parent
 PASO_HORAS = 0.25            # registros cada 15 minutos
 
 
-class LSTMSolar(nn.Module):
-    """Misma arquitectura que en el notebook de entrenamiento."""
+if torch is not None:
+    class LSTMSolar(nn.Module):
+        """Misma arquitectura que en el notebook de entrenamiento (se exporta a lstm_solar.onnx)."""
 
-    def __init__(self, n_in=5, oculto=32):
-        super().__init__()
-        self.lstm = nn.LSTM(n_in, oculto, batch_first=True)
-        self.salida = nn.Sequential(nn.Linear(oculto, 16), nn.ReLU(), nn.Linear(16, 1))
+        def __init__(self, n_in=5, oculto=32):
+            super().__init__()
+            self.lstm = nn.LSTM(n_in, oculto, batch_first=True)
+            self.salida = nn.Sequential(nn.Linear(oculto, 16), nn.ReLU(), nn.Linear(16, 1))
 
-    def forward(self, x):
-        h, _ = self.lstm(x)
-        return self.salida(h[:, -1]).squeeze(-1)
+        def forward(self, x):
+            h, _ = self.lstm(x)
+            return self.salida(h[:, -1]).squeeze(-1)
 
 
 class FechaFueraDeRango(ValueError):
@@ -66,11 +72,13 @@ class ServicioSerie:
         self.cap = self.cfg["capacidad_kw"]                 # INV-XX -> kW de referencia
         self.inversores = sorted(self.cap)
         self._cargar_datos(Path(carpeta_datos))
-        oculto = int(self.cfg["lstm"]["oculto"])
-        self.lstm = LSTMSolar(oculto=oculto)
-        self.lstm.load_state_dict(torch.load(Path(carpeta_artefactos) / "lstm_solar.pt",
-                                             map_location="cpu", weights_only=True))
-        self.lstm.eval()
+        # LSTM exportada a ONNX desde lstm_solar.pt: mismas salidas, menos memoria en el servicio.
+        op = ort.SessionOptions()
+        op.intra_op_num_threads = 1
+        op.inter_op_num_threads = 1
+        op.enable_cpu_mem_arena = False
+        self.lstm = ort.InferenceSession(str(Path(carpeta_artefactos) / "lstm_solar.onnx"),
+                                         sess_options=op, providers=["CPUExecutionProvider"])
         self.lock = threading.Lock()
         self._cache_dias = None
 
@@ -120,8 +128,8 @@ class ServicioSerie:
         reg = np.clip(self.coef[0] * G + self.coef[1] * G * (T - 25) + self.coef[2], 0, None)
         pos = np.clip(idxs, self.ventana - 1, None)
         X = np.stack([self.M[p - self.ventana + 1:p + 1] for p in pos])
-        with self.lock, torch.inference_mode():
-            lstm = np.clip(self.lstm(torch.from_numpy(X)).numpy(), 0, None)
+        with self.lock:
+            lstm = np.clip(self.lstm.run(None, {"ventana": X.astype(np.float32)})[0], 0, None)
         return reg, lstm
 
     def _idx_dia(self, d: date):

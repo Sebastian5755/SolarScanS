@@ -1,8 +1,6 @@
-# PyTorch en su versión solo CPU (sin bibliotecas de GPU): menos memoria y construcción más rápida.
---extra-index-url https://download.pytorch.org/whl/cpu
-torch==2.14.1
-torchvision==0.29.1
-timm==1.0.31
+# Dependencias del servicio publicado (API, tablero y flujos). Los modelos corren con ONNX Runtime,
+# exportados desde los pesos de PyTorch, para caber en una instancia de 512 MB.
+onnxruntime==1.29.0
 numpy>=1.26,<3
 Pillow==11.3.0
 fastapi==0.141.1

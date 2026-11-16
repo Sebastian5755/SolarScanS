@@ -1,0 +1,7 @@
+# Dependencias para entrenar, reproducir los notebooks y exportar los modelos a ONNX.
+-r requirements.txt
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.14.1
+torchvision==0.29.1
+timm==1.0.31
+onnx==1.23.2

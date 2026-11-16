@@ -2,7 +2,9 @@
 
 ## 1. Servicio en Render
 1. Comando de inicio: `uvicorn interfaz_solar:app --host 0.0.0.0 --port $PORT`.
-2. Instancia recomendada: 1 CPU y 2 GB de RAM (PyTorch, EfficientNet-B0, la LSTM y el índice del manual).
+2. Instancia: la gratuita (512 MB) es suficiente. El servicio corre los modelos con ONNX Runtime y ocupa
+   unos 160 MB con los tres modelos cargados. Se suspende tras 15 minutos sin uso; el flujo
+   `.github/workflows/mantener-activo.yml` consulta `/health` cada 10 minutos en horario hábil.
 3. Variables de entorno: `GEMINI_API_KEY`, `N8N_WEBHOOK_TOKEN` (un secreto largo y aleatorio) y
    `TABLERO_CSV_URL` (paso 3). Opcional: `GEMINI_MODEL`.
 4. Comprobar: `/health` responde `listo`; `/serie/info` lista 22 inversores; `/tablero` carga.

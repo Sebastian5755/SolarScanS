@@ -11,7 +11,7 @@ from fastapi.testclient import TestClient
 # La integración continua del repositorio instala solo dependencias livianas; estas pruebas
 # necesitan NumPy y PyTorch, así que se omiten si no están instalados.
 pytest.importorskip("numpy")
-pytest.importorskip("torch")
+pytest.importorskip("onnxruntime")
 
 import recomendacion_integrada as ri  # noqa: E402
 from rag.rag_solar import BM25, BuscadorManuales, tokenizar  # noqa: E402

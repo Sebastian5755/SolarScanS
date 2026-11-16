@@ -95,21 +95,41 @@ del manual no se incluye en el repositorio: `rag/construir_indice.py` indica de 
 | Regresión lineal física (elegido) | 71,1 | 4,0 % | 0,992 |
 | LSTM | 86,2 | 5,1 % | 0,987 |
 
-**Imágenes** (prueba, 117 fotos): EfficientNet-B0 60,7 % de accuracy y 57,6 % de macro-F1, frente a
-41,9 % y 38,2 % del árbol de umbrales. La comparación con ConvNeXt-Tiny y ViT-Small queda en
-`notebooks/resultados_imagenes/`.
+**Imágenes** (validación 118 fotos, prueba 117; `notebooks/03_imagenes_comparacion.ipynb`):
 
-**Manual (RAG):** embeddings frente a regla fija con BM25 en 12 preguntas; resultados en
-`rag/resultados_rag.json`.
+| Modelo | Macro-F1 validación | Macro-F1 prueba | Latencia CPU | Tamaño |
+|---|---|---|---|---|
+| Árbol de umbrales (base) | – | 38,2 % | – | – |
+| EfficientNet-B0 (en servicio) | 79,2 % | 57,6 % | 14 ms | 16 MB |
+| ConvNeXt-Tiny (elegido por la regla) | 92,9 % | 78,2 % | 59 ms | 111 MB |
+| ViT-Small/16 | 90,0 % | 84,7 % | 58 ms | 87 MB |
+
+La regla fijada antes de comparar (cambiar si otro modelo supera en 0,05 el macro-F1 de validación)
+elige ConvNeXt-Tiny. El servicio mantiene EfficientNet-B0 mientras se valida la migración: ConvNeXt
+pesa 7 veces más (111 MB, sobre el límite de 100 MB por archivo de GitHub) y responde 4 veces más lento.
+
+**Manual (RAG)**, 12 preguntas, 323 fragmentos (`rag/resultados_rag.json`):
+
+| Método | Acierto@3 | Precisión@3 | MRR@3 |
+|---|---|---|---|
+| Embeddings gemini-embedding-001 | 91,7 % | 77,8 % | 0,861 |
+| Regla fija (palabras clave + BM25) | 91,7 % | 77,8 % | 0,819 |
+
+Umbral de "sin información": 0,617 (preguntas del tema ≥ 0,658; fuera de tema ≤ 0,576).
 
 ## Ejecución local
 
 ```bash
 python -m venv .venv && source .venv/bin/activate      # en Windows: .venv\Scripts\activate
-python -m pip install -r requirements.txt
+python -m pip install -r requirements.txt               # servicio (ONNX Runtime, sin PyTorch)
 python -m uvicorn interfaz_solar:app --host 127.0.0.1 --port 8000
 python -m pytest -q
 ```
+
+Para entrenar, reproducir los notebooks o volver a exportar los modelos a ONNX:
+`python -m pip install -r requirements-entrenamiento.txt`. El servicio usa los mismos pesos exportados
+a ONNX (`modelo/efficientnet_b0_solar.onnx`, `serie_temporal/artefactos/lstm_solar.onnx`): las
+probabilidades difieren de PyTorch en menos de 0,0001 y el servicio completo ocupa unos 160 MB.
 
 ## Variables de entorno (Render)
 

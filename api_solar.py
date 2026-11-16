@@ -139,7 +139,7 @@ def validar_imagen(data: bytes, max_bytes=MAX_BYTES, max_pixels=MAX_PIXELS):
 class PredictorSolar:
     def __init__(self, model_dir):
         # Se importa al iniciar el servicio, no durante las pruebas con dobles.
-        from inferencia_solar import cargar_modelo, predecir
+        from inferencia_onnx import cargar_modelo, predecir
         model_dir = Path(model_dir)
         self.modelo, self.config, self.tf = cargar_modelo(model_dir, 'cpu')
         if self.config['clases'] != CLASES:
