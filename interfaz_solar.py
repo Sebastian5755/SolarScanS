@@ -7,6 +7,7 @@ os.environ.setdefault('MKL_NUM_THREADS', '1')
 os.environ.setdefault('MALLOC_ARENA_MAX', '2')
 
 import csv
+import re
 import io
 import time
 from pathlib import Path
@@ -33,6 +34,14 @@ def tablero():
     return FileResponse(TABLERO / 'index.html')
 
 
+def _numero(valor):
+    """Google Sheets en configuración regional chilena publica decimales con coma (0,304)."""
+    v = (valor or '').strip()
+    if re.fullmatch(r'-?\d+,\d+', v):
+        return v.replace(',', '.')
+    return v
+
+
 @app.get('/api/registros')
 def registros():
     """Historial de recomendaciones que n8n escribe en Google Sheets (hoja publicada como CSV).
@@ -55,6 +64,6 @@ def registros():
     visibles = ['fecha_registro_utc', 'inspeccion_id', 'inversor', 'fecha_operacion', 'clase_imagen',
                 'confianza_imagen', 'indice_rendimiento', 'anomalia_serie', 'perdida_kwh', 'accion', 'prioridad',
                 'recomendacion', 'fuentes', 'generado_por', 'controles_ok', 'estado_aprobacion', 'ot_id']
-    datos = {'configurado': True, 'registros': [{k: f.get(k, '') for k in visibles} for f in filas]}
+    datos = {'configurado': True, 'registros': [{k: _numero(f.get(k, '')) for k in visibles} for f in filas]}
     _cache.update(t=time.monotonic(), datos=datos)
     return datos
