@@ -14,7 +14,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// Resume el error de cualquier ejecución fallida del flujo principal.\nconst e = $json.execution || {};\nconst texto = `SOLARSCAN · ERROR DEL FLUJO\\nNodo: ${e.lastNodeExecuted || 's/i'}\\nMensaje: ${(e.error && e.error.message) || 's/i'}\\nEjecución: ${e.id || ''} ${e.url || ''}`;\nreturn [{ json: { asunto: '[SolarScan][ERROR] Falla en el flujo principal', texto } }];"
+        "jsCode": "// Resume el error de cualquier ejecución fallida del flujo principal.\nconst e = $json.execution || {};\nconst texto = `SOLARSCAN · ERROR DEL FLUJO\\nNodo: ${e.lastNodeExecuted || 's/i'}\\nMensaje: ${String((e.error && e.error.message) || 's/i').replace(/[_*`\\[\\]<>]/g, ' ')}\\nEjecución: ${e.id || ''} ${e.url || ''}`;\nreturn [{ json: { asunto: '[SolarScan][ERROR] Falla en el flujo principal', texto } }];"
       },
       "id": "9e00e2b0-dee6-4185-a036-962d86e720b1",
       "name": "Armar aviso de error",
