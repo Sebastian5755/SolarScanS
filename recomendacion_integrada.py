@@ -267,6 +267,19 @@ def respaldo(imagen, serie, contexto, decision) -> dict:
             "fuentes": fuentes, "sin_informacion": not contexto}
 
 
+def citas_legibles(texto, contexto: list[dict]):
+    """Cambia las marcas internas [F#], ya verificadas, por la página del manual que respaldan."""
+    def cambiar(m):
+        i = int(m.group(1)) - 1
+        pag = contexto[i].get("pagina") if 0 <= i < len(contexto) else None
+        return f"(manual NREL, p. {pag})" if pag else ""
+    if isinstance(texto, list):
+        return [citas_legibles(t, contexto) for t in texto]
+    if not isinstance(texto, str):
+        return texto
+    return re.sub(r"\s{2,}", " ", re.sub(r"\[F(\d+)\]", cambiar, texto)).strip()
+
+
 def recomendar(imagen: dict, serie: dict, contexto: list[dict], llamar=_llamar_gemini) -> dict:
     """Punto de entrada: decide con reglas, pide el texto a Gemini y aplica los controles."""
     decision = decidir(imagen, serie)
@@ -296,6 +309,8 @@ def recomendar(imagen: dict, serie: dict, contexto: list[dict], llamar=_llamar_g
         controles["motivo_rechazo"] = "Falta GEMINI_API_KEY"
     if texto is None:
         texto = respaldo(imagen, serie, contexto, decision)
+    texto = {**texto, **{k: citas_legibles(texto[k], contexto)
+                         for k in ("diagnostico", "recomendacion", "pasos", "justificacion")}}
     return {**{k: texto[k] for k in ("diagnostico", "recomendacion", "pasos", "prioridad", "justificacion",
                                     "fuentes", "sin_informacion")},
             "accion": decision["accion"], "requiere_aprobacion": decision["requiere_aprobacion"],
