@@ -22,6 +22,7 @@ fallar se entrega un texto de respaldo armado con plantillas, marcado como tal.
 from __future__ import annotations
 
 import json
+import time
 import logging
 import os
 import re
@@ -234,8 +235,14 @@ def _llamar_gemini(prompt: str, clave: str, modelo: str) -> dict:
     cuerpo = {"contents": [{"role": "user", "parts": [{"text": prompt}]}],
               "generationConfig": {"responseMimeType": "application/json", "responseSchema": ESQUEMA,
                                    "temperature": 0.2, "maxOutputTokens": 1200}}
-    r = httpx.post(url, json=cuerpo, timeout=40.0,
-                   headers={"x-goog-api-key": clave, "Content-Type": "application/json"})
+    # Cuota por minuto agotada (429) o servicio saturado (500/503): reintenta con espera creciente.
+    for espera in (0, 4, 10):
+        time.sleep(espera)
+        r = httpx.post(url, json=cuerpo, timeout=40.0,
+                       headers={"x-goog-api-key": clave, "Content-Type": "application/json"})
+        if r.status_code not in (429, 500, 503):
+            break
+        logger.warning("Gemini respondió %s; se reintenta", r.status_code)
     r.raise_for_status()
     partes = r.json()["candidates"][0]["content"]["parts"]
     return json.loads("".join(p.get("text", "") for p in partes))
@@ -303,7 +310,10 @@ def recomendar(imagen: dict, serie: dict, contexto: list[dict], llamar=_llamar_g
                 error = str(exc); controles["motivo_rechazo"] = error
                 logger.warning("Respuesta rechazada (intento %s): %s", intento, error)
             except (httpx.HTTPError, KeyError, IndexError, ValueError, json.JSONDecodeError) as exc:
-                controles["motivo_rechazo"] = f"Gemini no disponible: {type(exc).__name__}"
+                codigo = getattr(getattr(exc, "response", None), "status_code", None)
+                controles["motivo_rechazo"] = (f"Gemini no disponible: {type(exc).__name__}"
+                                               + (f" {codigo}" if codigo else ""))
+                logger.warning("Gemini no disponible: %s", controles["motivo_rechazo"])
                 break
     else:
         controles["motivo_rechazo"] = "Falta GEMINI_API_KEY"
