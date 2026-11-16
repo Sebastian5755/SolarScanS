@@ -8,8 +8,8 @@
 4. Comprobar: `/health` responde `listo`; `/serie/info` lista 22 inversores; `/tablero` carga.
 
 ## 2. Índice del manual y comparación de imágenes (GitHub Actions)
-El flujo `.github/workflows/modelos-hito2.yml` se ejecuta al subir el código (o manualmente desde la
-pestaña Actions) y guarda sus resultados en el repositorio:
+El flujo `.github/workflows/modelos-hito2.yml` se ejecuta desde la pestaña Actions
+(Run workflow, eligiendo `todos`, `manual-rag` o `imagenes`) y guarda sus resultados en el repositorio:
 
 - `rag/indice_fragmentos.json`, `rag/embeddings.npy`, `rag/config_rag.json` y `rag/resultados_rag.json`.
 - `notebooks/resultados_imagenes/` y el notebook 03 ejecutado.

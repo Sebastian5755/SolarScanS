@@ -3,31 +3,26 @@ name: Modelos Hito 2 (manual RAG y comparación de imágenes)
 # Reproduce dos resultados del Hito 2 y los deja guardados en el repositorio:
 #  1. Índice del manual de O&M (NREL) y evaluación del buscador: embeddings frente a regla fija.
 #  2. Comparación de modelos preentrenados de imágenes (EfficientNet-B0, ConvNeXt-Tiny, ViT-Small).
-# Se ejecuta al cambiar el código de esos componentes o manualmente desde la pestaña Actions.
+# Se ejecuta manualmente desde la pestaña Actions (Run workflow), eligiendo uno o ambos trabajos.
 # Para evaluar los embeddings se necesita el secreto GEMINI_API_KEY (Settings > Secrets and
 # variables > Actions). Sin el secreto se construye el índice y se evalúa solo la regla fija.
 
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - 'rag/construir_indice.py'
-      - 'rag/evaluar_rag.py'
-      - 'rag/rag_solar.py'
-      - 'rag/preguntas_eval.json'
-      - 'notebooks/03_imagenes_comparacion.ipynb'
-      - '.github/workflows/modelos-hito2.yml'
+    inputs:
+      trabajo:
+        description: "Qué ejecutar"
+        type: choice
+        options: [todos, manual-rag, imagenes]
+        default: todos
 
 permissions:
   contents: write
 
-concurrency:
-  group: modelos-hito2
-  cancel-in-progress: false
-
 jobs:
   manual-rag:
+    if: inputs.trabajo != 'imagenes'
+    concurrency: hito2-manual-rag
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
@@ -40,8 +35,20 @@ jobs:
       - name: Descargar el manual de NREL (no se guarda en el repositorio)
         run: |
           mkdir -p rag/documentos
-          curl -fL --retry 3 -A "Mozilla/5.0" -o rag/documentos/73822.pdf https://docs.nlr.gov/docs/fy19osti/73822.pdf \
-            || curl -fL --retry 3 -A "Mozilla/5.0" -o rag/documentos/73822.pdf https://www.osti.gov/servlets/purl/1489002
+          # El laboratorio cambió de dominio (nrel.gov -> nlr.gov); se prueban la ubicación original,
+          # la nueva, el repositorio OSTI del DOE y una copia de archivo, y se valida que sea un PDF.
+          for url in \
+            https://www.nrel.gov/docs/fy19osti/73822.pdf \
+            https://docs.nlr.gov/docs/fy19osti/73822.pdf \
+            https://www.osti.gov/servlets/purl/1489002 \
+            "https://web.archive.org/web/2024id_/https://www.nrel.gov/docs/fy19osti/73822.pdf"; do
+            echo "Probando $url"
+            if curl -fsSL --retry 2 -A "Mozilla/5.0" -o rag/documentos/73822.pdf "$url" \
+               && head -c 5 rag/documentos/73822.pdf | grep -q '%PDF-'; then
+              echo "Descargado desde $url"; exit 0
+            fi
+          done
+          echo "No se pudo descargar el manual"; exit 1
       - name: Construir el índice de fragmentos
         run: python rag/construir_indice.py
       - name: Evaluar el buscador (embeddings y regla fija)
@@ -59,6 +66,8 @@ jobs:
           for i in 1 2 3 4 5; do git pull --rebase origin main && git push && break || sleep 15; done
 
   imagenes:
+    if: inputs.trabajo != 'manual-rag'
+    concurrency: hito2-imagenes
     runs-on: ubuntu-latest
     timeout-minutes: 300
     steps:
