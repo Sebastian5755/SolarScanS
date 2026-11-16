@@ -1,0 +1,438 @@
+{
+  "n_fragmentos": 323,
+  "n_preguntas": 12,
+  "fragmentos_relevantes_promedio_por_pregunta": 34.0,
+  "regla_fija_bm25": {
+    "acierto@3": 0.917,
+    "precision@3": 0.778,
+    "mrr@3": 0.819
+  },
+  "embeddings": {
+    "acierto@3": 0.917,
+    "precision@3": 0.778,
+    "mrr@3": 0.861
+  },
+  "similitud_top1_en_alcance": {
+    "min": 0.658,
+    "media": 0.713
+  },
+  "similitud_top1_fuera_de_alcance": {
+    "max": 0.576,
+    "valores": [
+      0.576,
+      0.512,
+      0.518
+    ]
+  },
+  "umbral_sin_informacion": 0.617,
+  "detalle": [
+    {
+      "pregunta": "¿Cada cuánto conviene limpiar paneles con polvo acumulado?",
+      "regla": [
+        [
+          "NREL (2018), PV O&M Best Practices, p. 40",
+          true
+        ],
+        [
+          "NREL (2018), PV O&M Best Practices, p. 39",
+          true
+        ],
+        [
+          "NREL (2018), PV O&M Best Practices, p. 39",
+          true
+        ]
+      ],
+      "embeddings": [
+        [
+          "NREL (2018), PV O&M Best Practices, p. 40",
+          0.709,
+          true
+        ],
+        [
+          "NREL (2018), PV O&M Best Practices, p. 40",
+          0.699,
+          true
+        ],
+        [
+          "NREL (2018), PV O&M Best Practices, p. 39",
+          0.695,
+          true
+        ]
+      ]
+    },
+    {
+      "pregunta": "¿Cómo afecta la suciedad acumulada a la energía que produce la planta?",
+      "regla": [
+        [
+          "NREL (2018), PV O&M Best Practices, p. 40",
+          false
+        ],
+        [
+          "NREL (2018), PV O&M Best Practices, p. 39",
+          true
+        ],
+        [
+          "NREL (2018), PV O&M Best Practices, p. 39",
+          true
+        ]
+      ],
+      "embeddings": [
+        [
+          "NREL (2018), PV O&M Best Practices, p. 39",
+          0.721,
+          true
+        ],
+        [
+          "NREL (2018), PV O&M Best Practices, p. 40",
+          0.716,
+          true
+        ],
+        [
+          "NREL (2018), PV O&M Best Practices, p. 39",
+          0.715,
+          true
+        ]
+      ]
+    },
+    {
+      "pregunta": "¿Qué se hace con los excrementos de aves sobre los módulos?",
+      "regla": [
+        [
+          "NREL (2018), PV O&M Best Practices, p. 38",
+          true
+        ],
+        [
+          "NREL (2018), PV O&M Best Practices, p. 38",
+          true
+        ],
+        [
+          "NREL (2018), PV O&M Best Practices, p. 40",
+          true
+        ]
+      ],
+      "embeddings": [
+        [
+          "NREL (2018), PV O&M Best Practices, p. 40",
+          0.748,
+          true
+        ],
+        [
+          "NREL (2018), PV O&M Best Practices, p. 40",
+          0.739,
+          true
+        ],
+        [
+          "NREL (2018), PV O&M Best Practices, p. 38",
+          0.736,
+          true
+        ]
+      ]
+    },
+    {
+      "pregunta": "¿Qué hacer cuando la nieve cubre los paneles solares?",
+      "regla": [
+        [
+          "NREL (2018), PV O&M Best Practices, p. 120",
+          true
+        ],
+        [
+          "NREL (2018), PV O&M Best Practices, p. 31",
+          true
+        ],
+        [
+          "NREL (2018), PV O&M Best Practices, p. 60",
+          true
+        ]
+      ],
+      "embeddings": [
+        [
+          "NREL (2018), PV O&M Best Practices, p. 42",
+          0.732,
+          true
+        ],
+        [
+          "NREL (2018), PV O&M Best Practices, p. 31",
+          0.718,
+          true
+        ],
+        [
+          "NREL (2018), PV O&M Best Practices, p. 43",
+          0.718,
+          true
+        ]
+      ]
+    },
+    {
+      "pregunta": "¿Cómo se inspecciona un módulo con el vidrio quebrado o el marco dañado?",
+      "regla": [
+        [
+          "NREL (2018), PV O&M Best Practices, p. 128",
+          true
+        ],
+        [
+          "NREL (2018), PV O&M Best Practices, p. 132",
+          true
+        ],
+        [
+          "NREL (2018), PV O&M Best Practices, p. 24",
+          true
+        ]
+      ],
+      "embeddings": [
+        [
+          "NREL (2018), PV O&M Best Practices, p. 88",
+          0.698,
+          true
+        ],
+        [
+          "NREL (2018), PV O&M Best Practices, p. 90",
+          0.695,
+          false
+        ],
+        [
+          "NREL (2018), PV O&M Best Practices, p. 140",
+          0.684,
+          false
+        ]
+      ]
+    },
+    {
+      "pregunta": "¿Cuándo se debe reemplazar un módulo fotovoltaico dañado?",
+      "regla": [
+        [
+          "NREL (2018), PV O&M Best Practices, p. 128",
+          false
+        ],
+        [
+          "NREL (2018), PV O&M Best Practices, p. 24",
+          false
+        ],
+        [
+          "NREL (2018), PV O&M Best Practices, p. 132",
+          true
+        ]
+      ],
+      "embeddings": [
+        [
+          "NREL (2018), PV O&M Best Practices, p. 71",
+          0.724,
+          false
+        ],
+        [
+          "NREL (2018), PV O&M Best Practices, p. 68",
+          0.706,
+          false
+        ],
+        [
+          "NREL (2018), PV O&M Best Practices, p. 70",
+          0.706,
+          true
+        ]
+      ]
+    },
+    {
+      "pregunta": "¿Para qué sirve la termografía infrarroja en la detección de puntos calientes?",
+      "regla": [
+        [
+          "NREL (2018), PV O&M Best Practices, p. 89",
+          true
+        ],
+        [
+          "NREL (2018), PV O&M Best Practices, p. 87",
+          true
+        ],
+        [
+          "NREL (2018), PV O&M Best Practices, p. 123",
+          true
+        ]
+      ],
+      "embeddings": [
+        [
+          "NREL (2018), PV O&M Best Practices, p. 90",
+          0.658,
+          true
+        ],
+        [
+          "NREL (2018), PV O&M Best Practices, p. 89",
+          0.649,
+          true
+        ],
+        [
+          "NREL (2018), PV O&M Best Practices, p. 89",
+          0.647,
+          false
+        ]
+      ]
+    },
+    {
+      "pregunta": "Un inversor genera menos energía que los demás, ¿cómo se diagnostica la falla?",
+      "regla": [
+        [
+          "NREL (2018), PV O&M Best Practices, p. 139",
+          true
+        ],
+        [
+          "NREL (2018), PV O&M Best Practices, p. 125",
+          false
+        ],
+        [
+          "NREL (2018), PV O&M Best Practices, p. 26",
+          true
+        ]
+      ],
+      "embeddings": [
+        [
+          "NREL (2018), PV O&M Best Practices, p. 27",
+          0.709,
+          true
+        ],
+        [
+          "NREL (2018), PV O&M Best Practices, p. 26",
+          0.699,
+          true
+        ],
+        [
+          "NREL (2018), PV O&M Best Practices, p. 26",
+          0.692,
+          true
+        ]
+      ]
+    },
+    {
+      "pregunta": "¿Qué tareas de mantenimiento preventivo se recomiendan para los inversores?",
+      "regla": [
+        [
+          "NREL (2018), PV O&M Best Practices, p. 139",
+          true
+        ],
+        [
+          "NREL (2018), PV O&M Best Practices, p. 125",
+          false
+        ],
+        [
+          "NREL (2018), PV O&M Best Practices, p. 26",
+          true
+        ]
+      ],
+      "embeddings": [
+        [
+          "NREL (2018), PV O&M Best Practices, p. 26",
+          0.74,
+          true
+        ],
+        [
+          "NREL (2018), PV O&M Best Practices, p. 26",
+          0.734,
+          true
+        ],
+        [
+          "NREL (2018), PV O&M Best Practices, p. 142",
+          0.733,
+          true
+        ]
+      ]
+    },
+    {
+      "pregunta": "¿Qué revisar si un string completo deja de producir energía?",
+      "regla": [
+        [
+          "NREL (2018), PV O&M Best Practices, p. 87",
+          true
+        ],
+        [
+          "NREL (2018), PV O&M Best Practices, p. 89",
+          true
+        ],
+        [
+          "NREL (2018), PV O&M Best Practices, p. 26",
+          true
+        ]
+      ],
+      "embeddings": [
+        [
+          "NREL (2018), PV O&M Best Practices, p. 27",
+          0.698,
+          true
+        ],
+        [
+          "NREL (2018), PV O&M Best Practices, p. 27",
+          0.69,
+          true
+        ],
+        [
+          "NREL (2018), PV O&M Best Practices, p. 129",
+          0.683,
+          true
+        ]
+      ]
+    },
+    {
+      "pregunta": "¿Cada cuánto deben inspeccionarse visualmente los módulos?",
+      "regla": [
+        [
+          "NREL (2018), PV O&M Best Practices, p. 139",
+          true
+        ],
+        [
+          "NREL (2018), PV O&M Best Practices, p. 142",
+          true
+        ],
+        [
+          "NREL (2018), PV O&M Best Practices, p. 123",
+          true
+        ]
+      ],
+      "embeddings": [
+        [
+          "NREL (2018), PV O&M Best Practices, p. 124",
+          0.748,
+          false
+        ],
+        [
+          "NREL (2018), PV O&M Best Practices, p. 140",
+          0.745,
+          false
+        ],
+        [
+          "NREL (2018), PV O&M Best Practices, p. 123",
+          0.734,
+          false
+        ]
+      ]
+    },
+    {
+      "pregunta": "¿Qué precauciones de seguridad eléctrica deben seguir los técnicos al intervenir?",
+      "regla": [
+        [
+          "NREL (2018), PV O&M Best Practices, p. 89",
+          false
+        ],
+        [
+          "NREL (2018), PV O&M Best Practices, p. 87",
+          false
+        ],
+        [
+          "NREL (2018), PV O&M Best Practices, p. 123",
+          false
+        ]
+      ],
+      "embeddings": [
+        [
+          "NREL (2018), PV O&M Best Practices, p. 82",
+          0.669,
+          true
+        ],
+        [
+          "NREL (2018), PV O&M Best Practices, p. 26",
+          0.653,
+          true
+        ],
+        [
+          "NREL (2018), PV O&M Best Practices, p. 79",
+          0.648,
+          true
+        ]
+      ]
+    }
+  ]
+}
